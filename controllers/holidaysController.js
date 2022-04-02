@@ -18,16 +18,20 @@ router.get("/seed", async (req, res) => {
   res.json(holidays)
 })
 
-
+//* Index Route
 router.get('/', (req, res) => {
-  res.send('holidays');
+  Holiday.find()
+    .then(holidays => {
+      res.json(holidays)
+    })
+    .catch(err => {
+      res.json(err)
+    })
 })
 
-//? CREATE ROUTE
+//* Create Route
 
-//? need to check, try catch is to check for "", send a success/failure
-router.post("/", async (req,res) =>{
-  //* extract the data from req.body
+router.post("/", async (req, res) => {
   console.log("body", req.body)
   try {
     const createdHoliday = await Holiday.create(req.body);
@@ -42,6 +46,5 @@ router.post("/", async (req,res) =>{
   res.send(); /// ???? 
 
 });
-
 
 module.exports = router;
