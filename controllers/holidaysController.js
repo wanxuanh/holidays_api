@@ -43,8 +43,14 @@ router.post("/", async (req, res) => {
 
   Holiday.save(req.body);
 
-  res.send(); /// ???? 
+  res.send();
 
+});
+
+//* DELETE ROUTE
+router.delete("/:id", async (req, res) => {
+  await Holiday.findByIdAndRemove(req.params.id);
+  res.json({ message: "Holiday Deleted" });
 });
 
 module.exports = router;

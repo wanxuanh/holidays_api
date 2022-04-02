@@ -4,6 +4,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const Holiday = require("./models/holidays")
 const HolidayController = require("./controllers/holidaysController")
+const methodOverride = require("method-override");
+
 
 const app = express();
 const PORT = process.env.PORT ?? 2000
@@ -26,6 +28,7 @@ mongoose.connection.once("open", () => {
 });
 
 app.use(cors());
+app.use(methodOverride("_method"));
 app.use("/api/holidays", HolidayController)
 
 
