@@ -1,35 +1,36 @@
-// Dependencies
+require('dotenv').config()
 const express = require("express");
 const mongoose = require("mongoose");
-// Dependency configurations
+const Holiday = require("./models/holidays")
+const HolidayController = require("./controllers/holidaysController")
+
 const app = express();
-const PORT = 3003;
+const PORT = process.env.PORT ?? 2000
 
-// middleware
-app.use(express.json()); // use .json(), not .urlencoded()
-
-// Database Error / Disconnection
+// Error / Disconnection
 mongoose.connection.on("error", (err) =>
   console.log(err.message + " is Mongod not running?")
 );
 mongoose.connection.on("disconnected", () => console.log("mongo disconnected"));
 
-// Database connection
+//...farther down the page
 
-const mongoURI = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI;
 
-mongoose.connect(mongoURI, {
+mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
 });
 mongoose.connection.once("open", () => {
   console.log("connected to mongoose...");
 });
 
-// Controllers/Routes
-const holidaysController = require("./controllers/holidaysController");
-app.use("/holidays", holidaysController);
+app.use("/api/holidays", HolidayController)
 
-// Listen
+
+app.get("/", (req, res) => {
+    res.send('Hi 2');
+})
+
 app.listen(PORT, () => {
-  console.log("🎉🎊", "celebrations happening on port", PORT, "🎉🎊");
-});
+    console.log(`Server is running on port ${PORT}`);
+})
