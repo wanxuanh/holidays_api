@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const Holiday = require("./models/holidays")
 const HolidayController = require("./controllers/holidaysController")
@@ -24,6 +25,7 @@ mongoose.connection.once("open", () => {
   console.log("connected to mongoose...");
 });
 
+app.use(cors());
 app.use("/api/holidays", HolidayController)
 
 
